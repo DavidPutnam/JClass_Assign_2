@@ -7,17 +7,25 @@ import java.util.Set;
 
 public class MaintenanceIntervals {
     private final Map<String, Long> maintenanceIntervals;
+    public static final String OIL_CHANGE = "Oil Change";
+    public static final String TIRE_ROTATION = "Tire Rotation";
+    public static final String TIRE_CONDITION = "Tire Condition Check";
+    public static final String TIRE_REPLACEMENT = "Tire Replacement";
+    public static final String AIR_FILTER = "Air Filter Replacement";
+    public static final String SPARK_PLUG = "Spark Plug Replacement";
+    public static final String TIMING_BELT = "Timing Belt Replacement";
+    public static final String CABIN_FILTER = "Cabin Air Filter Replacement";
 
     public MaintenanceIntervals() {
         maintenanceIntervals = new HashMap<String, Long>();
-        maintenanceIntervals.put("Oil Change", 6000l);
-        maintenanceIntervals.put("Tire Rotation", 8000l);
-        maintenanceIntervals.put("Tire Condition Check", 5000l);
-        maintenanceIntervals.put("Tire Replacement", 41000l);
-        maintenanceIntervals.put("Air Filter Replacement", 14000l);
-        maintenanceIntervals.put("Spark Plug Replacement", 32000l);
-        maintenanceIntervals.put("Timing Belt Replacement", 65000l);
-        maintenanceIntervals.put("Cabin Air Filter Replacement", 22000l);
+        maintenanceIntervals.put(OIL_CHANGE, 6000l);
+        maintenanceIntervals.put(TIRE_ROTATION, 8000l);
+        maintenanceIntervals.put(TIRE_CONDITION, 5000l);
+        maintenanceIntervals.put(TIRE_REPLACEMENT, 41000l);
+        maintenanceIntervals.put(AIR_FILTER, 14000l);
+        maintenanceIntervals.put(SPARK_PLUG, 32000l);
+        maintenanceIntervals.put(TIMING_BELT, 65000l);
+        maintenanceIntervals.put(CABIN_FILTER, 22000l);
     }
 
     public Set<String> keySet() {
