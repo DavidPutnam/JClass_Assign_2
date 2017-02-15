@@ -1,4 +1,4 @@
-package Assignment_2;
+package assignment_2;
 
 import java.util.Collections;
 import java.util.HashMap;
