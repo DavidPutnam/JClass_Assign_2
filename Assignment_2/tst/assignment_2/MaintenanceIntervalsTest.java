@@ -14,7 +14,9 @@ public class MaintenanceIntervalsTest {
         System.out.println("These services are due at " + mileage + ":");
         if (servicesDue.size() > 0) {
             for (String key : servicesDue.keySet()) {
-                System.out.println("\t" + key + " in " + servicesDue.get(key).toString() + " miles.");
+                long when = servicesDue.get(key).longValue();
+                String description = (when == 0l) ? "now." : "in " + when + " miles.";
+                System.out.println("\t" + key + " due " + description);
             }
         } else {
             System.out.println("\tNone.");
@@ -165,9 +167,10 @@ public class MaintenanceIntervalsTest {
 
     @Test
     public void testMax() {
-        long mileage = Integer.MAX_VALUE + 2000l;
+        long mileage = Integer.MAX_VALUE;
         Map<String, Long> expected = new HashMap<String, Long>();
-        expected.put(MaintenanceIntervals.CABIN_FILTER, 353l);
+        expected.put(MaintenanceIntervals.OIL_CHANGE, 353l);
+        expected.put(MaintenanceIntervals.TIRE_CONDITION, 1353l);
         Map<String, Long> actual = intervals.selectMaintenanceDue(mileage, 2000l);
         Assert.assertEquals("testMax", expected, actual);
     }
