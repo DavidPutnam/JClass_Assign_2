@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class MaintenanceIntervalsTest {
@@ -21,21 +22,65 @@ public class MaintenanceIntervalsTest {
     }
 
     @Test
+    @Ignore
+    public void testLoop() {
+        long maxSize = 0;
+        long atMileage = 0;
+        Map<String, Long> due = null;
+        for (long mileage = 1000l; mileage < 600000l; mileage += 1000l) {
+            Map<String, Long> selected = intervals.selectMaintenanceDue(mileage, 2000l);
+            if (selected.size() > maxSize) {
+                maxSize = selected.size();
+                atMileage = mileage;
+                due = selected;
+            }
+        }
+        System.out.println(maxSize + " services of found at mileage " + atMileage + ".");
+        printMap(atMileage, due);
+    }
+
+    @Test
     public void testZero() {
+        long mileage = 0l;
         Map<String, Long> expected = new HashMap<String, Long>();
-        Map<String, Long> actual = intervals.selectMaintenanceDue(0l, 2000l);
-        printMap(0l, actual);
+        expected.put(MaintenanceIntervals.CABIN_FILTER, 0l);
+        expected.put(MaintenanceIntervals.OIL_CHANGE, 0l);
+        expected.put(MaintenanceIntervals.AIR_FILTER, 0l);
+        expected.put(MaintenanceIntervals.TIMING_BELT, 0l);
+        expected.put(MaintenanceIntervals.TIRE_CONDITION, 0l);
+        expected.put(MaintenanceIntervals.TIRE_ROTATION, 0l);
+        expected.put(MaintenanceIntervals.TIRE_REPLACEMENT, 0l);
+        expected.put(MaintenanceIntervals.SPARK_PLUG, 0l);
+        Map<String, Long> actual = intervals.selectMaintenanceDue(mileage, 2000l);
         Assert.assertEquals("testZero", expected, actual);
     }
 
     @Test
-    public void testLoop() {
-        for (long mileage = 0; mileage < 300000l; mileage += 1000) {
-            Map<String, Long> selected = intervals.selectMaintenanceDue(mileage, 2000l);
-            if (selected.size() > 0) {
-                System.out.println(selected.size() + " services of found at mileage " + mileage + ".");
-            }
-        }
+    public void test40000() {
+        long mileage = 40000l;
+        Map<String, Long> expected = new HashMap<String, Long>();
+        expected.put(MaintenanceIntervals.OIL_CHANGE, 2000l);
+        expected.put(MaintenanceIntervals.TIRE_CONDITION, 0l);
+        expected.put(MaintenanceIntervals.TIRE_ROTATION, 0l);
+        expected.put(MaintenanceIntervals.TIRE_REPLACEMENT, 1000l);
+        expected.put(MaintenanceIntervals.AIR_FILTER, 2000l);
+        Map<String, Long> actual = intervals.selectMaintenanceDue(mileage, 2000l);
+        Assert.assertEquals("test40000", expected, actual);
+
+    }
+
+    @Test
+    public void test64000() {
+        long mileage = 64000l;
+        Map<String, Long> expected = new HashMap<String, Long>();
+        expected.put(MaintenanceIntervals.OIL_CHANGE, 2000l);
+        expected.put(MaintenanceIntervals.TIRE_CONDITION, 1000l);
+        expected.put(MaintenanceIntervals.SPARK_PLUG, 0l);
+        expected.put(MaintenanceIntervals.TIRE_ROTATION, 0l);
+        expected.put(MaintenanceIntervals.CABIN_FILTER, 2000l);
+        expected.put(MaintenanceIntervals.TIMING_BELT, 1000l);
+        Map<String, Long> actual = intervals.selectMaintenanceDue(mileage, 2000l);
+        Assert.assertEquals("test64000", expected, actual);
     }
 
     @Test
@@ -43,10 +88,10 @@ public class MaintenanceIntervalsTest {
         long mileage = 95000l;
         Map<String, Long> expected = new HashMap<String, Long>();
         expected.put(MaintenanceIntervals.OIL_CHANGE, 1000l);
+        expected.put(MaintenanceIntervals.TIRE_CONDITION, 0l);
         expected.put(MaintenanceIntervals.SPARK_PLUG, 1000l);
         expected.put(MaintenanceIntervals.TIRE_ROTATION, 1000l);
         Map<String, Long> actual = intervals.selectMaintenanceDue(mileage, 2000l);
-        printMap(mileage, actual);
         Assert.assertEquals("test95000", expected, actual);
     }
 
@@ -58,7 +103,6 @@ public class MaintenanceIntervalsTest {
         expected.put(MaintenanceIntervals.TIRE_CONDITION, 1000l);
         expected.put(MaintenanceIntervals.TIRE_ROTATION, 1000l);
         Map<String, Long> actual = intervals.selectMaintenanceDue(mileage, 2000l);
-        printMap(mileage, actual);
         Assert.assertEquals("test119000", expected, actual);
     }
 
@@ -70,7 +114,6 @@ public class MaintenanceIntervalsTest {
         expected.put(MaintenanceIntervals.SPARK_PLUG, 1000l);
         expected.put(MaintenanceIntervals.TIRE_ROTATION, 1000l);
         Map<String, Long> actual = intervals.selectMaintenanceDue(mileage, 2000l);
-        printMap(mileage, actual);
         Assert.assertEquals("test159000", expected, actual);
     }
 
@@ -82,7 +125,6 @@ public class MaintenanceIntervalsTest {
         expected.put(MaintenanceIntervals.TIRE_ROTATION, 1000l);
         expected.put(MaintenanceIntervals.AIR_FILTER, 1000l);
         Map<String, Long> actual = intervals.selectMaintenanceDue(mileage, 2000l);
-        printMap(mileage, actual);
         Assert.assertEquals("test167000", expected, actual);
     }
 
@@ -94,7 +136,6 @@ public class MaintenanceIntervalsTest {
         expected.put(MaintenanceIntervals.SPARK_PLUG, 1000l);
         expected.put(MaintenanceIntervals.TIRE_ROTATION, 1000l);
         Map<String, Long> actual = intervals.selectMaintenanceDue(mileage, 2000l);
-        printMap(mileage, actual);
         Assert.assertEquals("test191000", expected, actual);
     }
 
@@ -106,7 +147,28 @@ public class MaintenanceIntervalsTest {
         expected.put(MaintenanceIntervals.TIRE_CONDITION, 1000l);
         expected.put(MaintenanceIntervals.AIR_FILTER, 1000l);
         Map<String, Long> actual = intervals.selectMaintenanceDue(mileage, 2000l);
-        printMap(mileage, actual);
         Assert.assertEquals("test209000", expected, actual);
+    }
+
+    @Test
+    public void test286000() {
+        long mileage = 286000l;
+        Map<String, Long> expected = new HashMap<String, Long>();
+        expected.put(MaintenanceIntervals.OIL_CHANGE, 2000l);
+        expected.put(MaintenanceIntervals.CABIN_FILTER, 0l);
+        expected.put(MaintenanceIntervals.TIRE_REPLACEMENT, 1000l);
+        expected.put(MaintenanceIntervals.TIRE_ROTATION, 2000l);
+        expected.put(MaintenanceIntervals.SPARK_PLUG, 2000l);
+        Map<String, Long> actual = intervals.selectMaintenanceDue(mileage, 2000l);
+        Assert.assertEquals("test286000", expected, actual);
+    }
+
+    @Test
+    public void testMax() {
+        long mileage = Integer.MAX_VALUE + 2000l;
+        Map<String, Long> expected = new HashMap<String, Long>();
+        expected.put(MaintenanceIntervals.CABIN_FILTER, 353l);
+        Map<String, Long> actual = intervals.selectMaintenanceDue(mileage, 2000l);
+        Assert.assertEquals("testMax", expected, actual);
     }
 }
