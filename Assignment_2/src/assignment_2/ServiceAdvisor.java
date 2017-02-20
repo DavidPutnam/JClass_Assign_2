@@ -15,7 +15,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
- * <h1>Assignment 2 -</h1>
+ * <h1>Assignment 2 - Due 22Feb2017</h1>
  * 
  * Jumping the gun a bit here, but this requires only a little bit of work from
  * Chapter 3, so you can either start now and read on your own, or wait until
@@ -50,7 +50,7 @@ import javax.swing.JTextField;
  * Questions? Let me know.
  * 
  * @author dputnam3 "David Putnam"
- * @version 1.0
+ * @version 1.1
  *
  */
 public class ServiceAdvisor {
@@ -115,9 +115,11 @@ public class ServiceAdvisor {
         frame.getContentPane().add(btnQuit, BorderLayout.SOUTH);
 
         // implement actions for the buttons
+        frame.getRootPane().setDefaultButton(btnAdvise);
         btnQuit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                frame.dispose();
                 System.exit(0);
             }
         });
@@ -143,6 +145,8 @@ public class ServiceAdvisor {
                     text.append(e.toString() + "\n");
                     error = true;
                 }
+                // if the following takes too long it should be submitted to a
+                // new thread
                 if (!error) {
                     Map<String, Long> servicesDue = intervals.selectMaintenanceDue(mileage, tolerance);
                     if (servicesDue.size() > 0) {
