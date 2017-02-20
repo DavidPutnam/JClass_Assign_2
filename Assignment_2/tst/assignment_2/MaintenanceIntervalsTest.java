@@ -174,4 +174,16 @@ public class MaintenanceIntervalsTest {
         Map<String, Long> actual = intervals.selectMaintenanceDue(mileage, 2000l);
         Assert.assertEquals("testMax", expected, actual);
     }
+
+    @Test
+    public void testJunk() {
+        boolean npe = false;
+        try {
+            @SuppressWarnings("unused")
+            long nothing = intervals.get("Junk");
+        } catch (NullPointerException e) {
+            npe = true;
+        }
+        Assert.assertTrue("testJunk", npe);
+    }
 }
