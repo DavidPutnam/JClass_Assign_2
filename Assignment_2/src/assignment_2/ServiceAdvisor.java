@@ -1,6 +1,7 @@
 package assignment_2;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -11,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -86,6 +88,7 @@ public class ServiceAdvisor {
     private void initialize() {
         frame = new JFrame();
         frame.setBounds(100, 100, 450, 300);
+        frame.setMinimumSize(new Dimension(450, 300));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(new BorderLayout(0, 0));
 
@@ -108,7 +111,8 @@ public class ServiceAdvisor {
         // Center content
         JTextArea resultTextArea = new JTextArea();
         resultTextArea.setEditable(false);
-        frame.getContentPane().add(resultTextArea, BorderLayout.CENTER);
+        JScrollPane resultScrollPane = new JScrollPane(resultTextArea);
+        frame.getContentPane().add(resultScrollPane, BorderLayout.CENTER);
 
         // South content
         JButton btnQuit = new JButton("Quit");
@@ -130,17 +134,23 @@ public class ServiceAdvisor {
                 MaintenanceIntervals intervals = new MaintenanceIntervals();
                 StringBuffer text = new StringBuffer();
                 String mileageString = mileageText.getText();
-                String toleranceString = toleranceField.getText();
                 Long mileage = 0l;
                 try {
                     mileage = Long.parseLong(mileageString);
+                    if (mileage < 0) {
+                        throw new IllegalArgumentException("Mileage cannot be negative. \"" + mileageString + "\"");
+                    }
                 } catch (Exception e) {
                     text.append(e.toString() + "\n");
                     error = true;
                 }
+                String toleranceString = toleranceField.getText();
                 Long tolerance = 0l;
                 try {
                     tolerance = Long.parseLong(toleranceString);
+                    if (tolerance < 0) {
+                        throw new IllegalArgumentException("Tolerance cannot be negative.\"" + toleranceString + "\"");
+                    }
                 } catch (Exception e) {
                     text.append(e.toString() + "\n");
                     error = true;
@@ -150,6 +160,7 @@ public class ServiceAdvisor {
                 if (!error) {
                     Map<String, Long> servicesDue = intervals.selectMaintenanceDue(mileage, tolerance);
                     if (servicesDue.size() > 0) {
+                        // TODO: sort the keySet by the miles to service.
                         for (String key : servicesDue.keySet()) {
                             long when = servicesDue.get(key).longValue();
                             String description = (when == 0l) ? "now." : "in " + when + " miles.";
