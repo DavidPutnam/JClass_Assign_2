@@ -74,9 +74,15 @@ public class MaintenanceIntervals {
 
         for (String key : maintenanceIntervals.keySet()) {
             long intervalMileage = maintenanceIntervals.get(key).longValue();
-            long milesPast = (mileage + tolerance) % intervalMileage;
-            if (milesPast <= tolerance) {
-                maintenanceDue.put(key, new Long(tolerance - milesPast));
+            long milesPast = mileage % intervalMileage;
+            if (milesPast == 0) {
+                // this service is due now
+                maintenanceDue.put(key, new Long(milesPast));
+            } else {
+                long milesUntil = intervalMileage - milesPast;
+                if (milesUntil <= tolerance) {
+                    maintenanceDue.put(key, new Long(milesUntil));
+                }
             }
         }
 
