@@ -88,7 +88,7 @@ public class ServiceAdvisor {
     private void initialize() {
         frame = new JFrame();
         frame.setBounds(100, 100, 450, 300);
-        frame.setMinimumSize(new Dimension(450, 300));
+        frame.setMinimumSize(new Dimension(350, 150));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(new BorderLayout(0, 0));
 
