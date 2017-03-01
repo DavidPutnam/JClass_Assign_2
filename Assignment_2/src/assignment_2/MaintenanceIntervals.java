@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * The <code>MaintenanceIntervals</code> class encapsulates the services and
- * frequencies they are expected to be performed.
+ * The <code>MaintenanceIntervals</code> class encapsulates the services and frequencies they are
+ * expected to be performed.
  * 
  * @author dputnam3 "David Putnam"
  * @version 1.0
@@ -25,8 +25,7 @@ public class MaintenanceIntervals {
     public static final String CABIN_FILTER = "Cabin Air Filter Replacement";
 
     /**
-     * The constructor creates an immutable object that can be queried for
-     * services.
+     * The constructor creates an immutable object that can be queried for services.
      */
     public MaintenanceIntervals() {
         maintenanceIntervals = new HashMap<String, Long>();
@@ -49,8 +48,8 @@ public class MaintenanceIntervals {
     }
 
     /**
-     * Retrieve the <code>long</code> maintenance interval associated with the
-     * service <code>key</code>
+     * Retrieve the <code>long</code> maintenance interval associated with the service
+     * <code>key</code>
      * 
      * @param key
      * @return
@@ -60,8 +59,8 @@ public class MaintenanceIntervals {
     }
 
     /**
-     * Retrieve Map of services and mileage until they are due for all services
-     * that are due from mileage to mileage plus tolerance inclusive.
+     * Retrieve Map of services and mileage until they are due for all services that are due from
+     * mileage to mileage plus tolerance inclusive.
      * 
      * @param mileage
      *            mileage of the vehicle now
@@ -77,7 +76,7 @@ public class MaintenanceIntervals {
             long milesPast = mileage % intervalMileage;
             if (milesPast == 0) {
                 // this service is due now
-                maintenanceDue.put(key, new Long(milesPast));
+                maintenanceDue.put(key, Long.valueOf(milesPast));
             } else {
                 long milesUntil = intervalMileage - milesPast;
                 if (milesUntil <= tolerance) {
