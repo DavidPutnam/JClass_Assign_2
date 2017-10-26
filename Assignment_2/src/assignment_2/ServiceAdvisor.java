@@ -1,3 +1,4 @@
+
 package assignment_2;
 
 import java.awt.BorderLayout;
@@ -51,7 +52,7 @@ import javax.swing.JTextField;
  */
 public class ServiceAdvisor {
 
-    private JFrame frame;
+    private final JFrame frame;
 
     /**
      * Launch the application.
@@ -61,7 +62,7 @@ public class ServiceAdvisor {
             public void run() {
                 try {
                     ServiceAdvisor window = new ServiceAdvisor();
-                    window.frame.setVisible(true);
+                    window.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -73,14 +74,22 @@ public class ServiceAdvisor {
      * Create the application.
      */
     public ServiceAdvisor() {
+        frame = new JFrame();
         initialize();
+    }
+
+    /**
+     * 
+     * @param visible
+     */
+    public void setVisible(boolean visible) {
+        frame.setVisible(visible);
     }
 
     /**
      * Initialize the contents of the frame.
      */
     private void initialize() {
-        frame = new JFrame();
         frame.setBounds(100, 100, 450, 300);
         frame.setMinimumSize(new Dimension(350, 150));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -131,8 +140,7 @@ public class ServiceAdvisor {
                 try {
                     mileage = Long.parseLong(mileageString);
                     if (mileage < 0) {
-                        throw new IllegalArgumentException(
-                                "Mileage cannot be negative. \"" + mileageString + "\"");
+                        throw new IllegalArgumentException("Mileage cannot be negative. \"" + mileageString + "\"");
                     }
                 } catch (Exception e) {
                     text.append(e.toString() + "\n");
@@ -143,8 +151,7 @@ public class ServiceAdvisor {
                 try {
                     tolerance = Long.parseLong(toleranceString);
                     if (tolerance < 0) {
-                        throw new IllegalArgumentException(
-                                "Tolerance cannot be negative.\"" + toleranceString + "\"");
+                        throw new IllegalArgumentException("Tolerance cannot be negative.\"" + toleranceString + "\"");
                     }
                 } catch (Exception e) {
                     text.append(e.toString() + "\n");
@@ -153,8 +160,7 @@ public class ServiceAdvisor {
                 // if the following takes too long it should be submitted to a
                 // new thread
                 if (!error) {
-                    Map<String, Long> servicesDue = intervals.selectMaintenanceDue(mileage,
-                            tolerance);
+                    Map<String, Long> servicesDue = intervals.selectMaintenanceDue(mileage, tolerance);
                     if (servicesDue.size() > 0) {
                         // TODO: sort the keySet by the miles to service.
                         for (String key : servicesDue.keySet()) {
